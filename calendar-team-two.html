@@ -287,7 +287,7 @@
         <h1 id="headerText" style="display:block;" title="Welcome to Team2 User-friendly Calendar">ITTP Team Two Calendar</h1>
         <div>
             <iframe style="display:block;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=America%2FNew_York"
-               height="90" frameborder="0"></iframe>
+                height="90" frameborder="0"></iframe>
         </div>
         <!-- <div id="time"></div>-->
     </div>
@@ -315,7 +315,7 @@
     </div>
     <div id="day-bar">
         <div title="Off day">Sunday</div>
-        <div >Monday</div>
+        <div>Monday</div>
         <div>Tuesday</div>
         <div>Wednesday</div>
         <div>Thursday</div>
@@ -354,7 +354,8 @@
                     <select></select> Alert Option</span>
             </div>
             <input type="submit" value="Set Alarm!" id="submitbutton" />
-            <input type="button" value="Press F5 to Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm. Refresh to reset alarm"/>
+            <input type="button" value="Press F5 to Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm. Refresh to reset alarm"
+            />
         </div>
 
     </form>
@@ -542,6 +543,47 @@
         return i;
     }
 
+    (function () {
+        var moment;
+
+        moment = typeof require !== "undefined" && require !== null ? require("moment") : this.moment;
+
+        //Holiday definitions
+        var _holidays = {
+            'M': {//Month, Day
+                '01/01': "New Year's Day",
+                '07/04': "Independence Day",
+                '11/11': "Veteran's Day",
+                '11/28': "Thanksgiving Day",
+                '11/29': "Day after Thanksgiving",
+                '12/24': "Christmas Eve",
+                '12/25': "Christmas Day",
+                '12/31': "New Year's Eve"
+            },
+            'W': {//Month, Week of Month, Day of Week
+                '1/3/1': "Martin Luther King Jr. Day",
+                '2/3/1': "Washington's Birthday",
+                '5/5/1': "Memorial Day",
+                '9/1/1': "Labor Day",
+                '10/2/1': "Columbus Day",
+                '11/4/4': "Thanksgiving Day",
+                '6/3/0': "Father's Day"
+            }
+        };
+
+        moment.fn.holiday = function () {
+            var diff = 1 + (0 | (this._d.getDate() - 1) / 7),
+                memorial = (this._d.getDay() === 1 && (this._d.getDate() + 7) > 30) ? "5" : null;
+
+            return (_holidays['M'][this.format('MM/DD')] || _holidays['W'][this.format('M/' + (memorial || diff) + '/d')]);
+        };
+
+        if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
+            module.exports = moment;
+        }
+
+    }(this));
+
     function loadDates() {
         jsalarm.init();
 
@@ -577,46 +619,12 @@
 
                 if (weeks[i][j].unix() == moment(todaysDate, "YYYY-MM-DD").unix()) {
                     li.style.backgroundColor = "lightblue";
-                    
+
                 }
 
-                if (weeks[i][j].unix() == moment("06-17", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightyellow";
-                    span.innerHTML = "Father's Day";
+                if(moment(weeks[i][j]).holiday() != undefined) {
+                    span.innerHTML = moment(weeks[i][j]).holiday();
                 }
-                 if (weeks[i][j].unix() == moment("07-04", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "Independence Day";
-                }
-                if (weeks[i][j].unix() == moment("09-03", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "Labor Day";
-                }
-                if (weeks[i][j].unix() == moment("11-12", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "Veterans Day";
-                }
-                if (weeks[i][j].unix() == moment("11-22", "YYYY-MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "Veterans Day";
-                }
-                if (weeks[i][j].unix() == moment("11-23", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "Thanksgiving Day";
-                }
-                if (weeks[i][j].unix() == moment("12-24", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "Christmas Day";
-                }
-                if (weeks[i][j].unix() == moment("01-01", "MM-DD").unix()) {
-                    li.style.backgroundColor = "lightgreen";
-                    span.innerHTML = "New Year's Day";
-                }
-
-
-
-
-
 
                 li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
                 span.value = weeks[i][j];
