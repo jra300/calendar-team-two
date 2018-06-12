@@ -619,11 +619,11 @@
 
                 if (weeks[i][j].unix() == moment(todaysDate, "YYYY-MM-DD").unix()) {
                     li.style.backgroundColor = "lightblue";
-
                 }
 
                 if(moment(weeks[i][j]).holiday() != undefined) {
                     span.innerHTML = moment(weeks[i][j]).holiday();
+                    li.style.backgroundColor = "lightgreen";
                 }
 
                 li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
