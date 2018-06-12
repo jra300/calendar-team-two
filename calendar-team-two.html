@@ -294,7 +294,7 @@
     <div class="month">
         <ul>
             <li onclick="decrementYear()" class="prev">
-                <button type="button" id="myBtn1">Prev Year</button>
+                <button type="button" id="myBtn1" style="background-color: skyblue">Prev Year</button>
             </li>
             <li onclick="decrementMonth()" class="prev">
                 <button type="button" id="myBtn2">Prev Month </button>
@@ -303,7 +303,7 @@
                 <button type="button" id="myBtn3">Next Year</button>
             </li>
             <li onclick="incrementMonth()" class="next">
-                <button type="button" id="myBtn4">Next Month</button>
+                <button type="button" id="myBtn4" style="background-color: skyblue">Next Month</button>
             </li>
             <li id="month" style="text-align: center;"></li>
             <li id="year" style="font-size: 16px; text-align: center;"></li>
@@ -314,13 +314,13 @@
         </ul>
     </div>
     <div id="day-bar">
-        <div>Sunday</div>
-        <div>Monday</div>
+        <div title="Off day">Sunday</div>
+        <div >Monday</div>
         <div>Tuesday</div>
         <div>Wednesday</div>
         <div>Thursday</div>
         <div>Friday</div>
-        <div>Saturday</div>
+        <div title="Off day">Saturday</div>
     </div>
     <ul class="days">
     </ul>
@@ -354,7 +354,7 @@
                     <select></select> Alert Option</span>
             </div>
             <input type="submit" value="Set Alarm!" id="submitbutton" />
-            <input type="button" value="Reset" id="resetbutton" />
+            <input type="button" value="Press F5 to Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm. Refresh to reset alarm"/>
         </div>
 
     </form>
@@ -577,7 +577,46 @@
 
                 if (weeks[i][j].unix() == moment(todaysDate, "YYYY-MM-DD").unix()) {
                     li.style.backgroundColor = "lightblue";
+                    
                 }
+
+                if (weeks[i][j].unix() == moment("06-17", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightyellow";
+                    span.innerHTML = "Father's Day";
+                }
+                 if (weeks[i][j].unix() == moment("07-04", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "Independence Day";
+                }
+                if (weeks[i][j].unix() == moment("09-03", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "Labor Day";
+                }
+                if (weeks[i][j].unix() == moment("11-12", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "Veterans Day";
+                }
+                if (weeks[i][j].unix() == moment("11-22", "YYYY-MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "Veterans Day";
+                }
+                if (weeks[i][j].unix() == moment("11-23", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "Thanksgiving Day";
+                }
+                if (weeks[i][j].unix() == moment("12-24", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "Christmas Day";
+                }
+                if (weeks[i][j].unix() == moment("01-01", "MM-DD").unix()) {
+                    li.style.backgroundColor = "lightgreen";
+                    span.innerHTML = "New Year's Day";
+                }
+
+
+
+
+
 
                 li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
                 span.value = weeks[i][j];
