@@ -261,6 +261,7 @@
             font-family: Tahoma;
             font-weight: bold;
             font-size: 12px;
+            padding: 10px;
         }
 
         #jsalarmclock div {
@@ -278,6 +279,15 @@
         #jsalarmclock span {
             margin-right: 5px;
         }
+
+        .alarmSelect {
+            width: 10%;
+            padding: 0px;
+            border: 1px solid #ccc;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            resize: vertical;
+        }
     </style>
 </head>
 
@@ -288,7 +298,6 @@
             <iframe style="display:block;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=America%2FNew_York"
                 height="90" frameborder="0"></iframe>
         </div>
-        <!-- <div id="time"></div>-->
     </div>
     <div class="month">
         <ul>
@@ -344,13 +353,13 @@
                 <span id="jsalarm_ct" style="letter-spacing: 2px"></span>
             </div>
             <div>
-                <div class="leftcolumn" title="Real Time in GMT">Hour:</div>
+                <div class="leftcolumn" title="Real Time in EST">Hour:</div>
                 <span>
-                    <select></select> Minutes</span>
+                    <select class="alarmSelect"></select> Minutes</span>
                 <span>
-                    <select></select> Seconds</span>
+                    <select class="alarmSelect"></select> Seconds</span>
                 <span>
-                    <select></select> Alert Option</span>
+                    <select class="alarmSelect"></select></span>
             </div>
             <input type="submit" value="Set Alarm!" id="submitbutton" />
             <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm"
@@ -404,7 +413,6 @@
 
 <!-- This is used to find all the dates -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>-->
 
 <script>
     let weeks = [];
@@ -425,6 +433,7 @@
         }
     });
 
+    //http://www.javascriptkit.com/script/script2/alarm.shtml
     var jsalarm = {
         padfield: function (f) {
             return (f < 10) ? "0" + f : f
@@ -511,40 +520,7 @@
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
 
-    function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-
-        var pmOrAm = '';
-
-        if (h >= 12) {
-            pmOrAm = 'pm';
-        } else {
-            pmOrAm = 'am'
-        }
-
-        if (h >= 13) {
-            h -= 12;
-        } else if (h === 0) {
-            h = 12;
-        }
-
-        document.getElementById('time').innerHTML =
-            h + ":" + m + ":" + s + " " + pmOrAm;
-        var t = setTimeout(startTime, 500);
-    }
-
-    function checkTime(i) {
-        if (i < 10) {
-            i = "0" + i
-        }; // add zero in front of numbers < 10
-        return i;
-    }
-
+    //https://gist.github.com/jrhames/5200024
     (function () {
         var moment;
 
@@ -598,7 +574,7 @@
 
         //fills the calendar weeks array
         calculateWeeks();
-        //startTime();
+
         //gets the unordered list that contains the days
         let days = document.getElementsByClassName("days")[0];
 
@@ -626,7 +602,6 @@
 
                 if(moment(weeks[i][j]).holiday() != undefined) {
                     span.innerHTML = moment(weeks[i][j]).holiday() + "<br />";
-                    li.style.backgroundColor = "lightgreen";
                 }
 
                 li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
