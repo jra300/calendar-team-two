@@ -354,7 +354,7 @@
                     <select></select> Alert Option</span>
             </div>
             <input type="submit" value="Set Alarm!" id="submitbutton" />
-            <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm. Refresh to reset alarm"
+            <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm"
             />
         </div>
 
@@ -623,7 +623,7 @@
                 }
 
                 if(moment(weeks[i][j]).holiday() != undefined) {
-                    span.innerHTML = moment(weeks[i][j]).holiday();
+                    span.innerHTML = moment(weeks[i][j]).holiday() + "<br />";
                     li.style.backgroundColor = "lightgreen";
                 }
 
