@@ -465,6 +465,9 @@
                     jsalarm.showcurrenttime()
                 }, 1000)
 
+                alarm.pause();
+                alarm.currentTime = 0;
+
                 return false
             }
             var selections = document.getElementsByTagName("select")
