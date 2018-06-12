@@ -176,7 +176,6 @@
 
         .days li {
             overflow: auto;
-            ;
             display: inline-block;
             height: 100px;
             width: 14.2857%;
@@ -625,10 +624,6 @@
                     li.style.backgroundColor = "lightblue";
                 }
 
-                if(moment(weeks[i][j]).holiday() != undefined) {
-                    span.innerHTML = moment(weeks[i][j]).holiday() + "<br />";
-                    li.style.backgroundColor = "lightgreen";
-                }
 
                 li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
                 span.value = weeks[i][j];
@@ -644,6 +639,11 @@
                 //grays out the dates not in this month
                 if (weeks[i][j].format('M') != month) {
                     li.setAttribute("style", "color: grey; font-style: italic;");
+                }
+
+                if(moment(weeks[i][j]).holiday() != undefined) {
+                    span.innerHTML = moment(weeks[i][j]).holiday() + "<br />";
+                    li.style.backgroundColor = "lightgreen";
                 }
 
                 li.onclick = clickedBox;
