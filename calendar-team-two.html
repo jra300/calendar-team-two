@@ -476,6 +476,9 @@
                 alarm.pause();
                 alarm.currentTime = 0;
 
+                submitref = document.getElementById("submitbutton") 
+                submitref.value = "Set Alarm!";
+
                 return false
             }
             var selections = document.getElementsByTagName("select")
