@@ -179,7 +179,6 @@
 
         .days li {
             overflow: auto;
-            ;
             display: inline-block;
             height: 100px;
             width: 14.2857%;
@@ -265,6 +264,7 @@
             font-family: Tahoma;
             font-weight: bold;
             font-size: 12px;
+            padding: 10px;
         }
 
         #jsalarmclock div {
@@ -282,6 +282,15 @@
         #jsalarmclock span {
             margin-right: 5px;
         }
+
+        .alarmSelect {
+            width: 10%;
+            padding: 0px;
+            border: 1px solid #ccc;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            resize: vertical;
+        }
     </style>
 </head>
 
@@ -292,7 +301,6 @@
             <iframe style="display:block;" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=America%2FNew_York"
                 height="90" frameborder="0"></iframe>
         </div>
-        <!-- <div id="time"></div>-->
     </div>
     <div class="month">
         <ul>
@@ -348,13 +356,13 @@
                 <span id="jsalarm_ct" style="letter-spacing: 2px"></span>
             </div>
             <div>
-                <div class="leftcolumn" title="Real Time in GMT">Hour:</div>
+                <div class="leftcolumn" title="Real Time in EST">Hour:</div>
                 <span>
-                    <select></select> Minutes</span>
+                    <select class="alarmSelect"></select> Minutes</span>
                 <span>
-                    <select></select> Seconds</span>
+                    <select class="alarmSelect"></select> Seconds</span>
                 <span>
-                    <select></select> Alert Option</span>
+                    <select class="alarmSelect"></select></span>
             </div>
             <input type="submit" value="Set Alarm!" id="submitbutton" />
             <input type="button" value="Reset" id="resetbutton" style="background-color:red" title="15 Sec alarm"
@@ -408,7 +416,6 @@
 
 <!-- This is used to find all the dates -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>-->
 
 <script>
     let weeks = [];
@@ -429,6 +436,7 @@
         }
     });
 
+    //http://www.javascriptkit.com/script/script2/alarm.shtml
     var jsalarm = {
         padfield: function (f) {
             return (f < 10) ? "0" + f : f
@@ -471,6 +479,9 @@
                 alarm.pause();
                 alarm.currentTime = 0;
 
+                submitref = document.getElementById("submitbutton") 
+                submitref.value = "Set Alarm!";
+              
                 return false
             }
             var selections = document.getElementsByTagName("select")
@@ -515,39 +526,48 @@
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
 
-    function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
+    //https://gist.github.com/jrhames/5200024
+    (function () {
+        var moment;
 
-        var pmOrAm = '';
+        moment = typeof require !== "undefined" && require !== null ? require("moment") : this.moment;
 
-        if (h >= 12) {
-            pmOrAm = 'pm';
-        } else {
-            pmOrAm = 'am'
+        //Holiday definitions
+        var _holidays = {
+            'M': {//Month, Day
+                '01/01': "New Year's Day",
+                '07/04': "Independence Day",
+                '11/11': "Veteran's Day",
+                '11/28': "Thanksgiving Day",
+                '11/29': "Day after Thanksgiving",
+                '12/24': "Christmas Eve",
+                '12/25': "Christmas Day",
+                '12/31': "New Year's Eve"
+            },
+            'W': {//Month, Week of Month, Day of Week
+                '1/3/1': "Martin Luther King Jr. Day",
+                '2/3/1': "Washington's Birthday",
+                '5/5/1': "Memorial Day",
+                '9/1/1': "Labor Day",
+                '10/2/1': "Columbus Day",
+                '11/4/4': "Thanksgiving Day",
+                '6/3/0': "Father's Day",
+                "5/2/0": "Mother's Day"
+            }
+        };
+
+        moment.fn.holiday = function () {
+            var diff = 1 + (0 | (this._d.getDate() - 1) / 7),
+                memorial = (this._d.getDay() === 1 && (this._d.getDate() + 7) > 30) ? "5" : null;
+
+            return (_holidays['M'][this.format('MM/DD')] || _holidays['W'][this.format('M/' + (memorial || diff) + '/d')]);
+        };
+
+        if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
+            module.exports = moment;
         }
 
-        if (h >= 13) {
-            h -= 12;
-        } else if (h === 0) {
-            h = 12;
-        }
-
-        document.getElementById('time').innerHTML =
-            h + ":" + m + ":" + s + " " + pmOrAm;
-        var t = setTimeout(startTime, 500);
-    }
-
-    function checkTime(i) {
-        if (i < 10) {
-            i = "0" + i
-        }; // add zero in front of numbers < 10
-        return i;
-    }
+    }(this));
 
     (function () {
         var moment;
@@ -602,7 +622,7 @@
 
         //fills the calendar weeks array
         calculateWeeks();
-        //startTime();
+
         //gets the unordered list that contains the days
         let days = document.getElementsByClassName("days")[0];
 
@@ -626,12 +646,11 @@
 
                 if (weeks[i][j].unix() == moment(todaysDate, "YYYY-MM-DD").unix()) {
                     li.style.backgroundColor = "lightblue";
-                    span.innerHTML = "Today";
+                    span.innerHTML = "Today <br />";
                 }
 
                 if(moment(weeks[i][j]).holiday() != undefined) {
                     span.innerHTML = moment(weeks[i][j]).holiday() + "<br />";
-                    li.style.backgroundColor = "lightgreen";
                 }
 
                 li.innerHTML = weeks[i][j].format('D') + "<br />"; //example: innerHTML = 31
@@ -648,6 +667,10 @@
                 //grays out the dates not in this month
                 if (weeks[i][j].format('M') != month) {
                     li.setAttribute("style", "color: grey; font-style: italic;");
+                }
+
+                if(moment(weeks[i][j]).holiday() != undefined) {
+                    li.style.backgroundColor = "lightgreen";
                 }
 
                 li.onclick = clickedBox;
