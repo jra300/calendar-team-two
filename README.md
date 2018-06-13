@@ -15,7 +15,8 @@ Further improvements are  in progress to enhance its user-friendly abilities.
 Some Sources Used:
 
 ThreeSchools.com
-GitHub.com
-Google.com
-javascriptkit.com/script
+GitHub.com,
+Google.com,
+javascriptkit.com/script,
+
 Authors(John Ale, Mike Cherry, Evans Appiah,  Zac Smith, and Webster Blunt).
