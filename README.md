@@ -14,11 +14,11 @@ Further improvements are in progress to enhance its user-friendly abilities.
 
 Some Sources Used:
 
-http://www.w3schools.com
-https://www.gitHub.com,
-https://www.google.com,
-http://www.javascriptkit.com/script/script2/alarm.shtml,
-https://gist.github.com/jrhames/5200024,
-https://github.com/vuejsdevelopers/vuejs-calendar
+* http://www.w3schools.com
+* https://www.github.com
+* https://www.google.com
+* http://www.javascriptkit.com/script/script2/alarm.shtml
+* https://gist.github.com/jrhames/5200024
+* https://github.com/vuejsdevelopers/vuejs-calendar
 
 Authors(John Ale, Mike Cherry, Evans Appiah, Zac Smith, and Webster Blunt).
