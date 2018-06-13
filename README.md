@@ -1,5 +1,7 @@
 # calendar-team-two
+
 Summary
+
 This is a Team Two Project Calendar for scheduling events.
 It allows users to  scheduled appointments or events
 Users can identify all holidays and occasions with a background color of green
